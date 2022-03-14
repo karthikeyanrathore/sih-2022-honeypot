@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<div class="container-fluid">
+<a class="navbar-brand" href="{{url_for('home')}}">SIH-Blockcypher</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="navbarNav">
+<ul class="navbar-nav">
+<li class="nav-item">
+  <a class="nav-link" href="{{url_for('upload')}}">upload</a>
+</li>
+
+</ul>
+</div>
+</div>
+</nav>
+<br>
+<div class ="container">
+<div class="bg-light p-1 h-9 rounded">
+<title>Emotion in sound</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<br>
+<button  type="button" class="btn btn-primary" id="startRecording">Start recording</button>
+<button type="button" class="btn btn-danger"  id="stopRecording" disabled>Stop recording</button>
+<form method="post" action="/record">
+<br>
+<input  class="btn btn-dark" type="submit" name="get" value="Predict">
+</form>
+<figure class="text-center">
+<br>
+<h3> 
+<mark>Prediction: <strong> {{ result }}</strong></mark> 
+</h3>
+</figure>
+</body>
+
+
+
+<script>
+navigator
+.mediaDevices
+.getUserMedia({audio: true})
+.then(stream => { handlerFunction(stream) });
+
+function handlerFunction(stream) {
+rec = new MediaRecorder(stream);
+rec.ondataavailable = e => {
+audioChunks.push(e.data);
+if (rec.state == "inactive") {
+let blob = new Blob(audioChunks, {type: 'audio/mpeg-3'});
+sendData(blob);
+}
+}
+}
+
+function sendData(data) {
+var form = new FormData();
+form.append('file', data, 'data.wav');
+form.append('title', 'data.wav');
+//Chrome inspector shows that the post data includes a file and a title.
+$.ajax({
+type: 'POST',
+url: '/save-record',
+data: form,
+cache: false,
+processData: false,
+contentType: false
+}).done(function(data) {
+console.log(data);
+});
+}
+
+startRecording.onclick = e => {
+console.log('Recording are started..');
+startRecording.disabled = true;
+stopRecording.disabled = false;
+audioChunks = [];
+rec.start();
+};
+
+stopRecording.onclick = e => {
+console.log("Recording are stopped.");
+startRecording.disabled = false;
+stopRecording.disabled = true;
+rec.stop();
+};
+</script>
+
+<style>
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #F0F0F0;
+  color: black;
+  text-align: center;
+}
+</style>
+
+
+<div class="footer">
+  <p><strong><u>Authors: Asfahan, Aniket, Atinder, Saksham, Anubhuti, Karthikeyan</u></strong></p>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>BlockCypher</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://use.fontawesome.com/539cc4d835.js"></script>
+</head>
+
+<body>
+    <div class="banner">
+        <div class="navbar">
+            <p class="logo"><b><i>BlockCypher</i></b></p>
+            <ul>
+                <li><a href="#about">About Us</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1>Every Second Matters</h1>
+            <p>We at BlockCypher, provide solution to the emergency call services by automatically analysing <br>live calls using state of the art speech emotion recognition technique.
+            </p>
+            <div>
+              <button type="button" onclick="document.location='{{url_for('root')}}'"><span></span>
+                    Try Now</button>
+            </div>
+        </div>
+    </div>
+    <h1 id="about">About Us</h1>
+    <div class="container">
+        <div class="box">
+          <h1>Asfahan <br>Shah</h1>
+          <p>I'm a 3rd year Undergrad student of CSE in Bennett University. My interest lies in machine learning, deep learning, nlp.</p>
+        </div>
+        <div class="box">
+          <h1>Atindra Shekhar</h1>
+          <p>I'm a 3rd year Undergrad student of CSE in Bennett University. My interest lies in frontend development.</p>
+        </div>
+        <div class="box">
+          <h1>Karthikeyan Rathore</h1>
+          <p>I'm a 3rd year Undergrad student of CSE in Bennett University. My interest lies in blockchain, deep learning, nlp.</p>
+        </div>
+        <div class="box">
+            <h1>Aniket Purkayastha</h1>
+            <p>I'm a 3rd year Undergrad student of CSE in Bennett University. My interest lies in web development, machine learning.</p>
+          </div>
+          <div class="box">
+            <h1>Saksham Khandelwal</h1>
+            <p>I'm a 3rd year Undergrad student of CSE in Bennett University. My interest lies in full stack development.</p>
+          </div>
+          <div class="box">
+            <h1>Anubhuti Khare</h1>
+            <p>I'm a 3rd year Undergrad student of CSE in Bennett University. My interest lies in data science.</p>
+          </div>
+      </div>  
+      <footer id="footer">
+
+
+        <a href="#"><i class="fa fa-twitter footer-ic fa-lg" aria-hidden="true"></i></a>
+        <a href="#"><i class="fa fa-facebook fa-lg " aria-hidden="true"></i></a>
+        <a href="#"><i class="fa fa-instagram footer-ic fa-lg" aria-hidden="true"></i></a>
+        <a href="#"><i class="fa fa-envelope footer-ic fa-lg" aria-hidden="true"></i></a>
+    
+        <p class="f-p">© Copyright 2022 BlockCypher</p>
+    
+      </footer>
+</body>
+
+</html>
