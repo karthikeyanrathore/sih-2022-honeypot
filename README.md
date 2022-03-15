@@ -23,7 +23,12 @@ Speech Emotion Recognition(SER) on live calls while creating events.
 
 ## Run
 ```
-local MacOSx
+Local MacOSx
 chmod +x run.sh
 LOCAL=1 ./run.sh
+```
+
+```
+chmod +x docker.sh
+./docker.sh
 ```
