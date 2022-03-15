@@ -18,6 +18,12 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   printf "installing .... \n"
   yes | pip3 install -r requirements.txt
 
+  printf "fix apt_pkg package"
+  cd /usr/lib/python3/dist-packages
+  cp apt_pkg.cpython-35m-x86_64-linux-gnu.so apt_pkg.so
+  cd 
+
+
   exit
 
 else

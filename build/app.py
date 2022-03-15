@@ -5,7 +5,8 @@ from flask import (
     Flask, flash, request, redirect,
     render_template)
 
-from secure import enc, dec, get_key
+#from secure import enc, dec, get_key
+from spt import speech_to_text, check_final, processing
 UPLOAD_FOLDER = 'WAV'
 
 app = Flask(__name__)
@@ -18,13 +19,15 @@ def home():
 @app.route('/record' , methods=['POST', 'GET']) 
 def root():
   result = None
+  scam = None
   if request.method == 'POST':
     if "get" in request.form:
       result = predict()
+      scam = predict_scam()
       print(result)
-    return render_template('index.html', result=result)
+    return render_template('index.html', result=result, scam=scam)
   else:
-    return render_template('index.html', result=result)
+    return render_template('index.html', result=result, scam=scam)
 
 @app.route('/save-record', methods=['POST'])
 def save_record():
@@ -43,7 +46,7 @@ def save_record():
 
 def feature_extract(path):
   # decrypt sound
-  dec(path, get_key())
+  #dec(path, get_key())
   final_arr=[]
   mfcc=librosa.feature.mfcc(librosa.load(path)[0],n_mfcc=13)
   mfcc_delta=librosa.feature.delta(mfcc, order=1)
@@ -99,7 +102,7 @@ def predict():
   files = glob.glob('WAV/*')
   latest = max(files, key=os.path.getctime)
   print(latest)
-  enc(latest, get_key())
+  #enc(latest, get_key())
   arr=feature_extract(latest)
   arr=important(arr)
   arr=normalize("../model/normalize.csv",arr)
@@ -110,16 +113,33 @@ def predict():
   print("modelout: ", result("../model/svm_tess",arr))
   return result("../model/svm_tess",arr)
 
+def predict_scam():
+  files = glob.glob('WAV/*')
+  latest = max(files, key=os.path.getctime)
+  try:
+    text_arr = speech_to_text(latest)
+    text_arr = processing(text_arr)
+    return check_final(text_arr)
+  except:
+    return  "not indentifying"
+
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
   get=None
+  scam=None
   if request.method == "POST":
     sound = request.files['sound']
     path = os.path.join(app.config['UPLOAD_FOLDER'], sound.filename)
     sound.save(path)
     # encrypt sound
-    enc(path, get_key())
+    #enc(path, get_key())
     arr=feature_extract(path)
+    try:
+      text_arr=speech_to_text(path)
+      text_arr=processing(text_arr)
+      scam = check_final(text_arr)
+    except:
+      scam = "not indentifying"
     arr=important(arr)
     arr=normalize("../model/normalize.csv",arr)
     arr.insert(0,0)
@@ -129,12 +149,14 @@ def upload():
     print("modelout: ", result("../model/svm_tess",arr))
     get = result("../model/svm_tess",arr)
     print(get)
-    return render_template("upload.html", result=get)
+    return render_template("upload.html", result=get, scam=scam)
   else:
-    return render_template("upload.html", result=get) 
+    return render_template("upload.html", result=get,scam=scam) 
 
 
 if __name__ == '__main__':
   #app.run(debug=True, host="0.0.0.0", port=443, ssl_context="adhoc")
-  app.run(debug=True, host ='0.0.0.0')
+  #app.run(debug=True, host ='0.0.0.0', port="443", ssl_context="adhoc")
+  #app.run(debug=True, host ='0.0.0.0')
+  app.run(debug=True)
 
