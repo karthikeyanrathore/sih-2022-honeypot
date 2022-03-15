@@ -1,2 +1,5 @@
 security group
 443: port . tcp custom rule.
+
+if gi_ module error:
+  then just run sudo apt-get install ffmpeg -y
