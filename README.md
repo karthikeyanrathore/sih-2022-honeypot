@@ -1,7 +1,7 @@
 ## SIH-2022
 
 ### Team-Members
-* Asfahan Shah  
+* [Asfahan Shah](https://github.com/a-shah1200)  
 * Karthikeyan Rathore   
 * Aniket Purkayastha  
 * Atindra Shekhar  
