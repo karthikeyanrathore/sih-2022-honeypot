@@ -2,10 +2,10 @@
 
 ### Team-Members
 * [Asfahan Shah](https://github.com/a-shah1200)  
-* Karthikeyan Rathore   
+* [Karthikeyan Rathore](https://github.com/karthikeyanrathore)
 * Aniket Purkayastha  
-* Atindra Shekhar  
-* Saksham Khandelwal  
+* [Atindra Shekhar](https://github.com/atindra305)  
+* [Saksham Khandelwal](https://github.com/sakshamkhandelwal123)  
 * Anubhuti Khare
 
 ### Introduction  
