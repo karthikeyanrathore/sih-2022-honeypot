@@ -5,8 +5,8 @@ from flask import (
     Flask, flash, request, redirect,
     render_template)
 
-#from secure import enc, dec, get_key
-from spt import speech_to_text, check_final, processing
+# from secure import enc, dec, get_key
+# from spt import speech_to_text, check_final, processing
 UPLOAD_FOLDER = 'WAV'
 
 app = Flask(__name__)
@@ -23,7 +23,7 @@ def root():
   if request.method == 'POST':
     if "get" in request.form:
       result = predict()
-      scam = predict_scam()
+      # scam = predict_scam()
       print(result)
     return render_template('index.html', result=result, scam=scam)
   else:
@@ -113,15 +113,15 @@ def predict():
   print("modelout: ", result("../model/svm_tess",arr))
   return result("../model/svm_tess",arr)
 
-def predict_scam():
-  files = glob.glob('WAV/*')
-  latest = max(files, key=os.path.getctime)
-  try:
-    text_arr = speech_to_text(latest)
-    text_arr = processing(text_arr)
-    return check_final(text_arr)
-  except:
-    return  "not indentifying"
+# def predict_scam():
+#   files = glob.glob('WAV/*')
+#   latest = max(files, key=os.path.getctime)
+#   # try:
+#   #   text_arr = speech_to_text(latest)
+#   #   text_arr = processing(text_arr)
+#   #   return check_final(text_arr)
+#   # except:
+#   #   return  "not indentifying"
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
@@ -134,12 +134,12 @@ def upload():
     # encrypt sound
     #enc(path, get_key())
     arr=feature_extract(path)
-    try:
-      text_arr=speech_to_text(path)
-      text_arr=processing(text_arr)
-      scam = check_final(text_arr)
-    except:
-      scam = "not indentifying"
+    # try:
+    #   text_arr=speech_to_text(path)
+    #   text_arr=processing(text_arr)
+    #   scam = check_final(text_arr)
+    # except:
+    #   scam = "not indentifying"
     arr=important(arr)
     arr=normalize("../model/normalize.csv",arr)
     arr.insert(0,0)
@@ -157,6 +157,6 @@ def upload():
 if __name__ == '__main__':
   #app.run(debug=True, host="0.0.0.0", port=443, ssl_context="adhoc")
   #app.run(debug=True, host ='0.0.0.0', port="443", ssl_context="adhoc")
-  #app.run(debug=True, host ='0.0.0.0')
-  app.run(debug=True)
+  app.run(debug=True, host ='0.0.0.0')
+  # app.run(debug=True)
 
